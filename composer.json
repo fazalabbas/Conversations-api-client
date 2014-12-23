@@ -1,0 +1,20 @@
+{
+    "name": "spredfast/conversationsapiclient",
+    "type": "library",
+    "description": "PHP Client for WS API",
+    "homepage": "https://github.com/MassRelevance/Conversations-api-client",
+    "authors": [
+        {
+            "name": "Anton Kuku"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spredfast\\CustomSolutions\\": "src/"
+        }
+    }
+}
