@@ -62,6 +62,47 @@ class WebServicesClient {
     }
 
     /**
+     *
+     * @param string $environment
+     * @param integer $company_id
+     * @param integer $offset
+     * @param integer $limit
+     * @return array
+     */
+    public function getCompanyVoices($environment, $company_id, $offset = 0, $limit = 100) {
+        $url = "company/voices/$environment/$company_id/$offset/$limit";
+        return $this->worker->get($url);
+    }
+
+    /**
+     *
+     * @param string $environment
+     * @param integer $company_id
+     * @param integer $offset
+     * @param integer $limit
+     * @return array
+     */
+    public function getCompanyInitiatives($environment, $company_id, $offset = 0, $limit = 100) {
+        $url = "company/initiatives/$environment/$company_id/$offset/$limit";
+        return $this->worker->get($url);
+    }
+
+    /**
+     * Contains fields from accounts,initiatives,voices.
+     * Some voices can be attached to multiple initiatives so it will return you duplicates.
+     * Use this method to pull accounts for ARARMARK/Gannett
+     * @param string $environment
+     * @param integer $company_id
+     * @param integer $offset
+     * @param integer $limit
+     * @return array
+     */
+    public function getCompanyAccountsUnified($environment, $company_id, $offset = 0, $limit = 100) {
+        $url = "company/accountsunified/$environment/$company_id/$offset/$limit";
+        return $this->worker->get($url);
+    }
+
+    /**
      * 
      * @param string $environment
      * @param integer $company_id
@@ -128,7 +169,7 @@ class WebServicesClient {
     public function socialMediaLink($url) {
         $data = $this->worker->get('socialmedialink?url=' . $url);
         if ($data instanceof \stdClass) {
-            return json_decode(json_encode($data), true);;
+            return json_decode(json_encode($data), true);
         }
         return null;
     }
