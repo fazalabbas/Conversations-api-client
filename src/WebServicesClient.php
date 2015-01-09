@@ -132,6 +132,23 @@ class WebServicesClient {
     }
 
     /**
+     * Returns number of users, initiatives, collections, streams, teams, etc.
+     * Primarily used for 30 day User Reports
+     * @param string $environment
+     * @param integer $company_id
+     * @return array
+     */
+    public function getCompanyStats($environment, $company_id) {
+        $url = "company/stats/$environment/$company_id";
+        $data = $this->worker->get($url);
+        $result = null;
+        if (isset($data->name)) {
+            $result = $data->name;
+        }
+        return $result;
+    }
+
+    /**
      * Returns total number of rows for functions that should return set of data(company/users, company/accounts, etc)
      * @return integer|null
      */
