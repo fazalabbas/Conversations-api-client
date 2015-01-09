@@ -140,11 +140,7 @@ class WebServicesClient {
      */
     public function getCompanyStats($environment, $company_id) {
         $url = "company/stats/$environment/$company_id";
-        $data = $this->worker->get($url);
-        $result = null;
-        if (isset($data->name)) {
-            $result = $data->name;
-        }
+        $result = $this->worker->get($url);
         return $result;
     }
 
