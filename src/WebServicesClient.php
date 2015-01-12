@@ -136,10 +136,18 @@ class WebServicesClient {
      * Primarily used for 30 day User Reports
      * @param string $environment
      * @param integer $company_id
+     * @param string $start_date Y-m-d
+     * @param string $end_date Y-m-d
      * @return array
      */
-    public function getCompanyStats($environment, $company_id) {
+    public function getCompanyStats($environment, $company_id, $start_date = null, $end_date = null) {
         $url = "company/stats/$environment/$company_id";
+        if($start_date) {
+            $url .= "/$start_date";
+            if($end_date) {
+                $url .= "/$end_date";
+            }
+        }
         $result = $this->worker->get($url);
         return $result;
     }
