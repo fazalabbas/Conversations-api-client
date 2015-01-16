@@ -50,40 +50,58 @@ class WebServicesClient {
 
     /**
      * 
-     * @param string $environment
+     * @param int     $offset
+     * @param int     $limit
+     * @param array   $fields
+     * @return string
+     */
+    protected function makeQueryParamsString($offset, $limit, $fields = array()) {
+        $params = ['skip' => $offset, 'limit' => $limit];
+        if (!empty($fields)) {
+            $params['fields'] = implode(',', $fields);
+        }
+        return http_build_query($params);
+    }
+
+    /**
+     * 
+     * @param string  $environment
      * @param integer $company_id
      * @param integer $offset
      * @param integer $limit
+     * @param array   $fields
      * @return array
      */
-    public function getCompanyAccounts($environment, $company_id, $offset = 0, $limit = 100) {
-        $url = "company/accounts/$environment/$company_id/$offset/$limit";
+    public function getCompanyAccounts($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/accounts/$environment/$company_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
         return $this->worker->get($url);
     }
 
     /**
      *
-     * @param string $environment
+     * @param string  $environment
      * @param integer $company_id
      * @param integer $offset
      * @param integer $limit
+     * @param array   $fields
      * @return array
      */
-    public function getCompanyVoices($environment, $company_id, $offset = 0, $limit = 100) {
-        $url = "company/voices/$environment/$company_id/$offset/$limit";
+    public function getCompanyVoices($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/voices/$environment/$company_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
         return $this->worker->get($url);
     }
 
     /**
      *
-     * @param string $environment
+     * @param string  $environment
      * @param integer $company_id
      * @param integer $offset
      * @param integer $limit
+     * @param array   $fields
      * @return array
      */
-    public function getCompanyInitiatives($environment, $company_id, $offset = 0, $limit = 100) {
-        $url = "company/initiatives/$environment/$company_id/$offset/$limit";
+    public function getCompanyInitiatives($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/initiatives/$environment/$company_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
         return $this->worker->get($url);
     }
 
@@ -97,27 +115,28 @@ class WebServicesClient {
      * @param integer $limit
      * @return array
      */
-    public function getCompanyAccountsUnified($environment, $company_id, $offset = 0, $limit = 100) {
-        $url = "company/accountsunified/$environment/$company_id/$offset/$limit";
+    public function getCompanyAccountsUnified($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/accountsunified/$environment/$company_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
         return $this->worker->get($url);
     }
 
     /**
      * 
-     * @param string $environment
+     * @param string  $environment
      * @param integer $company_id
      * @param integer $offset
      * @param integer $limit
+     * @param array   $fields
      * @return array
      */
-    public function getCompanyUsers($environment, $company_id, $offset = 0, $limit = 100) {
-        $url = "company/users/$environment/$company_id/$offset/$limit";
+    public function getCompanyUsers($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/users/$environment/$company_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
         return $this->worker->get($url);
     }
 
     /**
      * 
-     * @param string $environment
+     * @param string  $environment
      * @param integer $company_id
      * @return string|null
      */
@@ -134,17 +153,17 @@ class WebServicesClient {
     /**
      * Returns number of users, initiatives, collections, streams, teams, etc.
      * Primarily used for 30 day User Reports
-     * @param string $environment
+     * @param string  $environment
      * @param integer $company_id
-     * @param string $start_date Y-m-d
-     * @param string $end_date Y-m-d
+     * @param string  $start_date Y-m-d
+     * @param string  $end_date Y-m-d
      * @return array
      */
     public function getCompanyStats($environment, $company_id, $start_date = null, $end_date = null) {
         $url = "company/stats/$environment/$company_id";
-        if($start_date) {
+        if ($start_date) {
             $url .= "/$start_date";
-            if($end_date) {
+            if ($end_date) {
                 $url .= "/$end_date";
             }
         }
@@ -162,7 +181,7 @@ class WebServicesClient {
 
     /**
      * 
-     * @param string $filepath FULL path to file. You can use realpath() function
+     * @param  string $filepath FULL path to file. You can use realpath() function
      * @return array|null Returns null if fails
      */
     public function convertCSV2JSON($filepath) {
@@ -171,7 +190,7 @@ class WebServicesClient {
 
     /**
      * 
-     * @param string $filepath FULL path to file. You can use realpath() function
+     * @param  string $filepath FULL path to file. You can use realpath() function
      * @return array|null Returns null if fails
      */
     public function extractCSV2JSON($filepath) {
@@ -184,7 +203,7 @@ class WebServicesClient {
 
     /**
      * Retrieves set of data for social media content + metrics
-     * @param string $url
+     * @param  string $url
      * @return array|null Returns null if fails or can't get data for this source
      */
     public function socialMediaLink($url) {
