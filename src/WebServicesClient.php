@@ -172,6 +172,20 @@ class WebServicesClient {
     }
 
     /**
+     * Search company(id, name, created) using a part of name
+     * @param string  $environment
+     * @param string  $name
+     * @param integer $offset
+     * @param integer $limit
+     * @param array   $fields
+     * @return array
+     */
+    public function findCompany($environment, $name, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/find/$environment/$name?" . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
+    /**
      * Returns total number of rows for functions that should return set of data(company/users, company/accounts, etc)
      * @return integer|null
      */
