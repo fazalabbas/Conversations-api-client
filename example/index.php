@@ -17,10 +17,12 @@ $environment = 'app'; // app | app3 | vpc1
 $company_id = 6;
 $filepath = realpath('example.csv');
 $social_media_url = "https://twitter.com/Spredfast/status/543505824967323648";
+$social_media_facebook_comments_url = "https://www.facebook.com/Spredfast/posts/917110184975303";
 //$data = $client->getCompanyAccounts($environment, $company_id);
 //$data = $client->getCompanyUsers($environment, $company_id);
 //$data = $client->getCompanyName($environment, $company_id);
 //$data = $client->convertCSV2JSON($filepath); // public method
 //$data = $client->extractCSV2JSON($filepath); // public method
 //$data = $client->socialMediaLink($social_media_url); // public method
+$data = $client->getFacebookComments($social_media_facebook_comments_url, array('id', 'message')); // public method
 var_dump($data);

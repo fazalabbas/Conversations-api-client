@@ -228,4 +228,19 @@ class WebServicesClient {
         return null;
     }
 
+    /**
+     * Retrieves all comments for Facebook post/photo
+     * @param  string $url
+     * @param  array  $fields
+     * @return array|null Returns null if fails or can't get data for this source
+     */
+    public function getFacebookComments($url, $fields = array()) {
+        $flds = '?';
+        if (!empty($fields)) {
+            $flds = '?fields=' . implode(',', $fields) . '&';
+        }
+        $data = $this->worker->get('socialmedia/facebook/comments' . $flds . 'url=' . $url);
+        return $data;
+    }
+
 }
