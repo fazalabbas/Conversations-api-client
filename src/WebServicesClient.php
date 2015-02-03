@@ -172,6 +172,19 @@ class WebServicesClient {
     }
 
     /**
+     * Get list of companies(id, name, created)
+     * @param string $environment
+     * @param int    $offset
+     * @param int    $limit
+     * @param array  $fields
+     * @return array
+     */
+    public function getCompanyList($environment, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/list/$environment?" . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
+    /**
      * Search company(id, name, created) using a part of name
      * @param string  $environment
      * @param string  $name
