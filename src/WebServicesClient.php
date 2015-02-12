@@ -244,15 +244,18 @@ class WebServicesClient {
     /**
      * Retrieves all comments for Facebook post/photo
      * @param  string $url
-     * @param  array  $fields
+     * @param  array  $fields could be empty if you need all fields
+     * @param  string $filter could be stream|toplevel only
      * @return array|null Returns null if fails or can't get data for this source
      */
-    public function getFacebookComments($url, $fields = array()) {
-        $flds = '?';
+    public function getFacebookComments($url, $fields = array(), $filter = 'stream') {
+        $flds = null;
         if (!empty($fields)) {
-            $flds = '?fields=' . implode(',', $fields) . '&';
+            $flds = implode(',', $fields);
         }
-        $data = $this->worker->get('socialmedia/facebook/comments' . $flds . 'url=' . $url);
+        $params = ['fields' => $flds, 'filter'=>$filter, 'url' => $url];
+        $query_params = http_build_query($params);
+        $data = $this->worker->get('socialmedia/facebook/comments?' . $query_params);
         return $data;
     }
 
