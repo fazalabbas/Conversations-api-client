@@ -194,6 +194,7 @@ class WebServicesClient {
      * @return array
      */
     public function findCompany($environment, $name, $offset = 0, $limit = 100, $fields = array()) {
+        $name = str_replace(' ', '%20', $name);
         $url = "company/find/$environment/$name?" . $this->makeQueryParamsString($offset, $limit, $fields);
         return $this->worker->get($url);
     }
