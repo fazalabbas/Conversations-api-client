@@ -11,12 +11,12 @@ class WebServicesClient {
 
     /**
      *
-     * @var WebServices 
+     * @var WebServices
      */
     public $worker;
 
     /**
-     * 
+     *
      * @param string $client_id
      * @param string $client_secret
      * @param string $redirect_uri
@@ -26,14 +26,14 @@ class WebServicesClient {
     }
 
     /**
-     * 
+     *
      */
     public function authorize() {
         return $this->worker->authorize();
     }
 
     /**
-     * 
+     *
      * @param string $token
      */
     public function setAccessToken($token) {
@@ -41,7 +41,7 @@ class WebServicesClient {
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getAccessToken() {
@@ -49,10 +49,10 @@ class WebServicesClient {
     }
 
     /**
-     * 
-     * @param int     $offset
-     * @param int     $limit
-     * @param array   $fields
+     *
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
      * @return string
      */
     protected function makeQueryParamsString($offset, $limit, $fields = array()) {
@@ -64,12 +64,12 @@ class WebServicesClient {
     }
 
     /**
-     * 
-     * @param string  $environment
+     *
+     * @param string $environment
      * @param integer $company_id
      * @param integer $offset
      * @param integer $limit
-     * @param array   $fields
+     * @param array $fields
      * @return array
      */
     public function getCompanyAccounts($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
@@ -79,11 +79,11 @@ class WebServicesClient {
 
     /**
      *
-     * @param string  $environment
+     * @param string $environment
      * @param integer $company_id
      * @param integer $offset
      * @param integer $limit
-     * @param array   $fields
+     * @param array $fields
      * @return array
      */
     public function getCompanyVoices($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
@@ -93,11 +93,11 @@ class WebServicesClient {
 
     /**
      *
-     * @param string  $environment
+     * @param string $environment
      * @param integer $company_id
      * @param integer $offset
      * @param integer $limit
-     * @param array   $fields
+     * @param array $fields
      * @return array
      */
     public function getCompanyInitiatives($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
@@ -121,12 +121,12 @@ class WebServicesClient {
     }
 
     /**
-     * 
-     * @param string  $environment
+     *
+     * @param string $environment
      * @param integer $company_id
      * @param integer $offset
      * @param integer $limit
-     * @param array   $fields
+     * @param array $fields
      * @return array
      */
     public function getCompanyUsers($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
@@ -135,8 +135,8 @@ class WebServicesClient {
     }
 
     /**
-     * 
-     * @param string  $environment
+     *
+     * @param string $environment
      * @param integer $company_id
      * @return string|null
      */
@@ -153,10 +153,10 @@ class WebServicesClient {
     /**
      * Returns number of users, initiatives, collections, streams, teams, etc.
      * Primarily used for 30 day User Reports
-     * @param string  $environment
+     * @param string $environment
      * @param integer $company_id
-     * @param string  $start_date Y-m-d
-     * @param string  $end_date Y-m-d
+     * @param string $start_date Y-m-d
+     * @param string $end_date Y-m-d
      * @return array
      */
     public function getCompanyStats($environment, $company_id, $start_date = null, $end_date = null) {
@@ -174,9 +174,9 @@ class WebServicesClient {
     /**
      * Get list of companies(id, name, created)
      * @param string $environment
-     * @param int    $offset
-     * @param int    $limit
-     * @param array  $fields
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
      * @return array
      */
     public function getCompanyList($environment, $offset = 0, $limit = 100, $fields = array()) {
@@ -186,11 +186,11 @@ class WebServicesClient {
 
     /**
      * Search company(id, name, created) using a part of name
-     * @param string  $environment
-     * @param string  $name
+     * @param string $environment
+     * @param string $name
      * @param integer $offset
      * @param integer $limit
-     * @param array   $fields
+     * @param array $fields
      * @return array
      */
     public function findCompany($environment, $name, $offset = 0, $limit = 100, $fields = array()) {
@@ -208,7 +208,7 @@ class WebServicesClient {
     }
 
     /**
-     * 
+     *
      * @param  string $filepath FULL path to file. You can use realpath() function
      * @return array|null Returns null if fails
      */
@@ -217,14 +217,14 @@ class WebServicesClient {
     }
 
     /**
-     * 
+     *
      * @param  string $filepath FULL path to file. You can use realpath() function
      * @return array|null Returns null if fails
      */
     public function extractCSV2JSON($filepath) {
         $data = $this->worker->post('csv2json/extract', array('file' => '@' . $filepath));
         if ($data instanceof \stdClass) {
-            return (array) $data;
+            return (array)$data;
         }
         return null;
     }
@@ -245,7 +245,7 @@ class WebServicesClient {
     /**
      * Retrieves all comments for Facebook post/photo
      * @param  string $url
-     * @param  array  $fields could be empty if you need all fields
+     * @param  array $fields could be empty if you need all fields
      * @param  string $filter could be stream|toplevel only
      * @return array|null Returns null if fails or can't get data for this source
      */
@@ -254,9 +254,78 @@ class WebServicesClient {
         if (!empty($fields)) {
             $flds = implode(',', $fields);
         }
-        $params = ['fields' => $flds, 'filter'=>$filter, 'url' => $url];
+        $params = ['fields' => $flds, 'filter' => $filter, 'url' => $url];
         $query_params = http_build_query($params);
         $data = $this->worker->get('socialmedia/facebook/comments?' . $query_params);
+        return $data;
+    }
+
+    /**
+     * Make query param for fields
+     * @param array $fields
+     * @return null|string
+     */
+    protected function makeFieldsParam($fields = array()) {
+        $result = null;
+        if (!empty($fields)) {
+            $result = 'fields=' . implode(',', $fields);
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve list of categories
+     * @param array $fields
+     * @return array
+     */
+    public function getAbsorbCategories($fields = array()) {
+        $data = $this->worker->get('absorb/categories?' . $this->makeFieldsParam($fields));
+        return $data;
+    }
+
+    /**
+     * Retrieve list of departments(companies)
+     * @param array $fields
+     * @return array
+     */
+    public function getAbsorbDepartments($fields = array()) {
+        $data = $this->worker->get('absorb/departments?' . $this->makeFieldsParam($fields));
+        return $data;
+    }
+
+    /**
+     * Retrieve list of students in department
+     * @param $department_id
+     * @param array $fields
+     * @return array
+     */
+    public function getAbsorbStudents($department_id, $fields = array()) {
+        $data = $this->worker->get('absorb/students/' . $department_id . '?' . $this->makeFieldsParam($fields));
+        return $data;
+    }
+
+    /**
+     * Retrieve data for students about categories, courses, progress, etc
+     * @param $student_id
+     * @return array
+     */
+    public function getAbsorbStudentEnrollment($student_id) {
+        $data = $this->worker->get('absorb/student/enrollment/' . $student_id);
+        return $data;
+    }
+
+    /**
+     * Retrieve data for students about categories, courses, progress, etc
+     * @param $department_id
+     * @param $category_id
+     * @return array
+     */
+    public function getAbsorbStudentsEnrollment($department_id, $category_id = null) {
+        $url = 'absorb/students/enrollment/' . $department_id;
+        if ($category_id) {
+            $url .= '/' . $category_id;
+        }
+        $data = $this->worker->get($url);
         return $data;
     }
 
