@@ -200,6 +200,35 @@ class WebServicesClient {
     }
 
     /**
+     * Returns list of streams for company
+     * @param string $environment
+     * @param int $company_id
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanyStreams($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/streams/$environment/$company_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
+    /**
+     * Returns list of streams for company using campaign_id (initiative_id)
+     * @param string $environment
+     * @param int $company_id
+     * @param int $initiative_id campaign_id
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanyInitiativeStreams($environment, $company_id, $initiative_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/initiativestreams/$environment/$company_id/$initiative_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
+    /**
      * Returns total number of rows for functions that should return set of data(company/users, company/accounts, etc)
      * @return integer|null
      */
