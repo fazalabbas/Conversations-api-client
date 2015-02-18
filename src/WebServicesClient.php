@@ -358,4 +358,43 @@ class WebServicesClient {
         return $data;
     }
 
+    /**
+     * Returns list of accounts(companies in list 1013) in Totango. Returns ALL data from Totango API.
+     * @param array $fields
+     * @return array
+     */
+    public function getTotangoAccounts($fields = array()) {
+        $data = $this->worker->get('totango/accounts' . '?' . $this->makeFieldsParam($fields));
+        return $data;
+    }
+
+    /**
+     * Returns account(company) name in Totango
+     * @param string $environment
+     * @param int $company_id
+     * @return string|null
+     */
+    public function getTotangoName($environment, $company_id) {
+        $url = "totango/name/$environment/$company_id";
+        $data = $this->worker->get($url);
+        $result = null;
+        if (isset($data->name)) {
+            $result = $data->name;
+        }
+        return $result;
+    }
+
+    /**
+     * Returns activity for company. Used for Conversations 30 Day User Report
+     * @param string $environment
+     * @param int $company_id
+     * @param int $days can be 30/60/90
+     * @param array $fields
+     * @return array
+     */
+    public function getTotangoActivity($environment, $company_id, $days = 30, $fields = array()) {
+        $data = $this->worker->get("totango/activity/$environment/$company_id/$days" . '?' . $this->makeFieldsParam($fields));
+        return $data;
+    }
+
 }
