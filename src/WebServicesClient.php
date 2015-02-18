@@ -397,4 +397,16 @@ class WebServicesClient {
         return $data;
     }
 
+    /**
+     * Returns user names using array of e-mails
+     * @param string $environment
+     * @param array $list
+     * @return array
+     */
+    public function getCompanyUsernames($environment, $list) {
+        $company_id = 1;
+        $data = $this->worker->post("company/usernames/$environment/$company_id", http_build_query(array('users' => $list)));
+        return $data;
+    }
+
 }
