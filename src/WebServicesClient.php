@@ -223,8 +223,8 @@ class WebServicesClient {
      * @param array $fields
      * @return array
      */
-    public function getCompanyInitiativeStreams($environment, $company_id, $initiative_id, $offset = 0, $limit = 100, $fields = array()) {
-        $url = "company/initiativestreams/$environment/$company_id/$initiative_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
+    public function getCompanyInitiativeStreams($environment, $initiative_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/initiativestreams/$environment/$initiative_id?" . $this->makeQueryParamsString($offset, $limit, $fields);
         return $this->worker->get($url);
     }
 
