@@ -409,4 +409,16 @@ class WebServicesClient {
         return $data;
     }
 
+    /**
+     * Returns data from companies table
+     * @param string $environment
+     * @param int $company_id
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanyInfo($environment, $company_id, $fields = array()) {
+        $data = $this->worker->get("company/info/$environment/$company_id" . '?' . $this->makeFieldsParam($fields));
+        return $data;
+    }
+
 }
