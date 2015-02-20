@@ -26,7 +26,7 @@ class WebServices {
      *
      * @var string 
      */
-    protected $base_url = "http://ws.spredfast.us/";
+    protected $base_url = "https://ws.spredfast.us/";
 
     /**
      *
