@@ -115,6 +115,9 @@ class WebServices {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); //don't follow redirects
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         curl_exec($ch);
+        if (curl_errno($ch) != 0) {
+            throw new Exception(curl_error($ch), 500);
+        }
         $curl_info = curl_getinfo($ch);
         curl_close($ch);
         if ($curl_info['http_code'] == 302) {
@@ -140,6 +143,9 @@ class WebServices {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         $server_output = curl_exec($ch);
+        if (curl_errno($ch) != 0) {
+            throw new Exception(curl_error($ch), 500);
+        }
         $json_result = json_decode($server_output);
         curl_close($ch);
         $this->access_token = $json_result->access_token;
@@ -228,6 +234,9 @@ class WebServices {
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         $response = curl_exec($ch);
+        if (curl_errno($ch) != 0) {
+            throw new Exception(curl_error($ch), 500);
+        }
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $header = substr($response, 0, $header_size);
         $body = substr($response, $header_size);
