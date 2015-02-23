@@ -64,6 +64,13 @@ class WebServicesClient {
     }
 
     /**
+     * @param bool $use
+     */
+    public function useHTTPS($use = true) {
+        $this->worker->useHTTPS($use);
+    }
+
+    /**
      *
      * @param string $environment
      * @param integer $company_id

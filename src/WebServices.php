@@ -5,7 +5,7 @@ namespace Spredfast\CustomSolutions;
 class WebServices {
 
     /**
-     * 
+     *
      * @var string
      */
     protected $client_id;
@@ -18,48 +18,54 @@ class WebServices {
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected $redirect_uri;
 
     /**
      *
-     * @var string 
+     * @var string
      */
-    protected $base_url = "https://ws.spredfast.us/";
+    protected $_protocol = 'http';
 
     /**
      *
-     * @var string 
+     * @var string
+     */
+    protected $_host = 'ws.spredfast.us';
+
+    /**
+     *
+     * @var string
      */
     protected $access_token;
 
     /**
      * Contains the last HTTP status code returned
-     * @var integer 
+     * @var integer
      */
     public $http_code;
 
     /**
      * Contains the last HTTP headers returned
-     * @var array 
+     * @var array
      */
     public $http_info = array();
 
     /**
      *
-     * @var array 
+     * @var array
      */
     public $http_headers;
 
     /**
      *
-     * @var string 
+     * @var string
      */
     protected $user_agent = "WebServicesCLI";
 
     /**
-     * 
+     *
      * @param string $client_id
      * @param string $client_secret
      * @param string $redirect_uri
@@ -71,7 +77,7 @@ class WebServices {
     }
 
     /**
-     * 
+     *
      * @param string $token
      */
     public function setAccessToken($token) {
@@ -79,7 +85,7 @@ class WebServices {
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getAccessToken() {
@@ -87,7 +93,7 @@ class WebServices {
     }
 
     /**
-     * 
+     *
      * @return string access_token
      */
     public function authorize() {
@@ -103,7 +109,7 @@ class WebServices {
         $ch = curl_init();
         $params = $this->getDefaultAuthParams();
         $params['response_type'] = 'code';
-        $url = $this->base_url . 'oauth/authorize' . '?' . http_build_query($params);
+        $url = $this->baseURL() . 'oauth/authorize' . '?' . http_build_query($params);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); //don't follow redirects
@@ -128,7 +134,7 @@ class WebServices {
         $params = $this->getDefaultAuthParams();
         $params['grant_type'] = 'authorization_code';
         $params['code'] = $code;
-        curl_setopt($ch, CURLOPT_URL, $this->base_url . 'oauth/access_token');
+        curl_setopt($ch, CURLOPT_URL, $this->baseURL() . 'oauth/access_token');
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -152,7 +158,7 @@ class WebServices {
     }
 
     /**
-     * 
+     *
      * @return array
      */
     private function getDefaultAuthParams() {
@@ -164,7 +170,7 @@ class WebServices {
     }
 
     /**
-     * 
+     *
      * @param string $url
      * @return array
      */
@@ -173,7 +179,7 @@ class WebServices {
     }
 
     /**
-     * 
+     *
      * @param string $url
      * @param array $params
      * @return array
@@ -183,7 +189,7 @@ class WebServices {
     }
 
     /**
-     * 
+     *
      * @param string $url
      * @return string
      */
@@ -201,7 +207,7 @@ class WebServices {
     function http($url, $method, $postfields = array()) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        $url = $this->base_url . $url;
+        $url = $this->baseURL() . $url;
         switch ($method) {
             case 'POST':
                 curl_setopt($ch, CURLOPT_POST, TRUE);
@@ -278,6 +284,20 @@ class WebServices {
             return $this->http_headers['X-Total-Count'];
         }
         return null;
+    }
+
+    /**
+     * @param bool $use
+     */
+    public function useHTTPS($use = true) {
+        $this->_protocol = $use ? 'https' : 'http';
+    }
+
+    /**
+     * @return string
+     */
+    protected function baseURL() {
+        return $this->_protocol . '://' . $this->_host . '/';
     }
 
 }
