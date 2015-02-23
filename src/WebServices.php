@@ -144,7 +144,7 @@ class WebServices {
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         $server_output = curl_exec($ch);
         if (curl_errno($ch) != 0) {
-            throw new Exception(curl_error($ch), 500);
+            throw new \Exception(curl_error($ch), 500);
         }
         $json_result = json_decode($server_output);
         curl_close($ch);
@@ -235,7 +235,7 @@ class WebServices {
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         $response = curl_exec($ch);
         if (curl_errno($ch) != 0) {
-            throw new Exception(curl_error($ch), 500);
+            throw new \Exception(curl_error($ch), 500);
         }
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $header = substr($response, 0, $header_size);
