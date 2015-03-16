@@ -115,6 +115,9 @@ class WebServices {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); //don't follow redirects
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
+        if($this->_protocol == 'https') {
+            curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/ca/bundle.crt');
+        }
         curl_exec($ch);
         if (curl_errno($ch) != 0) {
             throw new WebServicesException(curl_error($ch), 500);
@@ -144,6 +147,9 @@ class WebServices {
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
+        if($this->_protocol == 'https') {
+            curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/ca/bundle.crt');
+        }
         $server_output = curl_exec($ch);
         if (curl_errno($ch) != 0) {
             throw new WebServicesException(curl_error($ch), 500);
@@ -236,6 +242,9 @@ class WebServices {
         curl_setopt($ch, CURLOPT_URL, $this->attachAccessTokenToURL($url));
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
+        if($this->_protocol == 'https') {
+            curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/ca/bundle.crt');
+        }
         $response = curl_exec($ch);
         if (curl_errno($ch) != 0) {
             throw new WebServicesException(curl_error($ch), 500);
