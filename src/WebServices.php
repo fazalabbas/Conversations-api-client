@@ -104,6 +104,7 @@ class WebServices {
     /**
      * Retrieves code for access_token
      * @return string
+     * @throws WebServicesException
      */
     public function requestCode() {
         $ch = curl_init();
@@ -116,14 +117,14 @@ class WebServices {
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         curl_exec($ch);
         if (curl_errno($ch) != 0) {
-            throw new Exception(curl_error($ch), 500);
+            throw new WebServicesException(curl_error($ch), 500);
         }
         $curl_info = curl_getinfo($ch);
         curl_close($ch);
         if ($curl_info['http_code'] == 302) {
             return $this->getCodeFromURL($curl_info['redirect_url']);
         } else {
-            throw new \Exception("Can't get authentication code");
+            throw new WebServicesException("Can't get authentication code");
         }
     }
 
@@ -131,6 +132,7 @@ class WebServices {
      * Retrieves access token using requested code
      * @param string $code
      * @return string
+     * @throws WebServicesException
      */
     public function requestAccessToken($code) {
         $ch = curl_init();
@@ -144,7 +146,7 @@ class WebServices {
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         $server_output = curl_exec($ch);
         if (curl_errno($ch) != 0) {
-            throw new \Exception(curl_error($ch), 500);
+            throw new WebServicesException(curl_error($ch), 500);
         }
         $json_result = json_decode($server_output);
         curl_close($ch);
@@ -209,6 +211,7 @@ class WebServices {
      * @param string $method
      * @param array $postfields
      * @return stdClass API results
+     * @throws WebServicesException
      */
     function http($url, $method, $postfields = array()) {
         $ch = curl_init();
@@ -235,7 +238,7 @@ class WebServices {
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         $response = curl_exec($ch);
         if (curl_errno($ch) != 0) {
-            throw new \Exception(curl_error($ch), 500);
+            throw new WebServicesException(curl_error($ch), 500);
         }
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $header = substr($response, 0, $header_size);
