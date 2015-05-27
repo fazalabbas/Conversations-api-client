@@ -441,4 +441,20 @@ class WebServicesClient {
         return $this->worker->get($url);
     }
 
+    /**
+     * Returns details for Stream Item Logs
+     * @param string $environment
+     * @param int $company_id
+     * @param int $start_date Epoch timestamp
+     * @param int $end_date Epoch timestamp
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
+     * @return array
+     */
+    public function getDetailedStreamItemLogs($environment, $company_id, $start_date, $end_date = 0, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/detailedstreamitemlog/$environment/$company_id/$start_date/$end_date?" . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
 }
