@@ -457,4 +457,15 @@ class WebServicesClient {
         return $this->worker->get($url);
     }
 
+    /**
+     * Search for a company across all environments
+     * @param string $name company name
+     * @param array $fields
+     * @return array
+     */
+    public function searchCompany($name, $fields = array()) {
+        $url = "company/search/$name" . $this->makeFieldsParam($fields);
+        return $this->worker->get($url);
+    }
+
 }
