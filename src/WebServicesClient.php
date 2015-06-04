@@ -464,7 +464,7 @@ class WebServicesClient {
      * @return array
      */
     public function searchCompany($name, $fields = array()) {
-        $url = "company/search/$name" . $this->makeFieldsParam($fields);
+        $url = "company/search/$name?" . $this->makeFieldsParam($fields);
         return $this->worker->get($url);
     }
 
