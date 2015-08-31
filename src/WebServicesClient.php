@@ -354,12 +354,18 @@ class WebServicesClient {
      * Retrieve data for students about categories, courses, progress, etc
      * @param $department_id
      * @param $category_id
+     * @param bool $use_emails Use user name or email as a key
      * @return array
      */
-    public function getAbsorbStudentsEnrollment($department_id, $category_id = null) {
+    public function getAbsorbStudentsEnrollment($department_id, $category_id = null, $use_emails = false) {
         $url = 'absorb/students/enrollment/' . $department_id;
         if ($category_id) {
             $url .= '/' . $category_id;
+            if ($use_emails) {
+                $url .= '/' . 1;
+            }
+        } elseif ($use_emails) {
+            $url .= '/0/' . 1;
         }
         $data = $this->worker->get($url);
         return $data;
