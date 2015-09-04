@@ -474,4 +474,18 @@ class WebServicesClient {
         return $this->worker->get($url);
     }
 
+    /**
+     * Get stats for initiatives list. Returns number of users by role(admin, user),
+     * number of messages(conversation, auto_import),
+     * number of active accounts by social network
+     * @param string $environment
+     * @param int $company_id
+     * @param array $initiatives
+     * @return array
+     */
+    public function getCompanyInitiativeStats($environment, $company_id, array $initiatives) {
+        $url = "company/initiativestats/$environment/$company_id/" . implode(',', $initiatives);
+        return $this->worker->get($url);
+    }
+
 }
