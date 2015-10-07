@@ -481,10 +481,18 @@ class WebServicesClient {
      * @param string $environment
      * @param int $company_id
      * @param array $initiatives
+     * @param int $start_timestamp
+     * @param int $end_timestamp
      * @return array
      */
-    public function getCompanyInitiativeStats($environment, $company_id, array $initiatives) {
+    public function getCompanyInitiativeStats($environment, $company_id, array $initiatives, $start_timestamp = null, $end_timestamp = null) {
         $url = "company/initiativestats/$environment/$company_id/" . implode(',', $initiatives);
+        if ($start_timestamp) {
+            $url .= "/$start_timestamp";
+            if ($end_timestamp) {
+                $url .= "/$end_timestamp";
+            }
+        }
         return $this->worker->get($url);
     }
 
