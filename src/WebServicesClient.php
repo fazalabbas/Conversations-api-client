@@ -496,4 +496,19 @@ class WebServicesClient {
         return $this->worker->get($url);
     }
 
+    /**
+     * Get users associated with initiatives
+     * @param string $environment
+     * @param int $company_id
+     * @param array $initiatives
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanyInitiativeUsers($environment, $company_id, array $initiatives, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/initiativeusers/$environment/$company_id/" . implode(',', $initiatives) . "?" . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
 }
