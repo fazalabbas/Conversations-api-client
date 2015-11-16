@@ -511,4 +511,18 @@ class WebServicesClient {
         return $this->worker->get($url);
     }
 
+    /**
+     * Get content labels
+     * @param string $environment
+     * @param int $company_id
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanyContentLabels($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/contentlabels/$environment/$company_id" . '?' . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
 }
