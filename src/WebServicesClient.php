@@ -525,4 +525,20 @@ class WebServicesClient {
         return $this->worker->get($url);
     }
 
+    /**
+     * Get messages
+     * @param string $environment
+     * @param int $company_id
+     * @param int $start_timestamp
+     * @param int $end_timestamp
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanyMessages($environment, $company_id, $start_timestamp, $end_timestamp, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/messages/$environment/$company_id/$start_timestamp/$end_timestamp" . '?' . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
 }
