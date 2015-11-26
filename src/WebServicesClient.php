@@ -85,7 +85,7 @@ class WebServicesClient {
     }
 
     /**
-     *
+     * MAY CONTAIN DUPLICATES IF VOICE ASSOCIATED WITH MULTIPLE INITIATIVES
      * @param string $environment
      * @param integer $company_id
      * @param integer $offset
@@ -554,6 +554,19 @@ class WebServicesClient {
      */
     public function getCompanyContentLabelsUsage($environment, $company_id, $start_timestamp, $end_timestamp, $offset = 0, $limit = 100, $fields = array()) {
         $url = "company/contentlabelsusage/$environment/$company_id/$start_timestamp/$end_timestamp" . '?' . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
+    /**
+     * @param string $environment
+     * @param int $company_id
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanyAccountSets($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
+        $url = "company/accountsets/$environment/$company_id" . '?' . $this->makeQueryParamsString($offset, $limit, $fields);
         return $this->worker->get($url);
     }
 
