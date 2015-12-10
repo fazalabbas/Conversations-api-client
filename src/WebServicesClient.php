@@ -583,7 +583,7 @@ class WebServicesClient {
      * @param array $fields
      * @return array
      */
-    public function getCompanySelectedList($environment, array $list, array $fields = []) {
+    public function getCompanySelectedList($environment, array $list, $fields = []) {
         $url = "company/selectedlist/$environment" . '?' . $this->makeFieldsParam($fields);
         return $this->worker->post($url, http_build_query(array('companies' => $list)));
     }
