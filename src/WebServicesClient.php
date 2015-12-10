@@ -9,6 +9,13 @@ namespace Spredfast\CustomSolutions;
  */
 class WebServicesClient {
 
+    const CONVERSATIONS_ENV_APP  = 'app';
+    const CONVERSATIONS_ENV_APP3 = 'app3';
+    const CONVERSATIONS_ENV_VPC1 = 'vpc1';
+
+    const PLATFORM_CONVERSATIONS = 'conversations';
+    const PLATFORM_EXPERIENCES   = 'experiences';
+
     /**
      *
      * @var WebServices
@@ -567,6 +574,31 @@ class WebServicesClient {
      */
     public function getCompanyAccountSets($environment, $company_id, $offset = 0, $limit = 100, $fields = array()) {
         $url = "company/accountsets/$environment/$company_id" . '?' . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
+    /**
+     * @param string $environment
+     * @param array $list
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanySelectedList($environment, array $list, array $fields = []) {
+        $url = "company/selectedlist/$environment" . '?' . $this->makeFieldsParam($fields);
+        return $this->worker->post($url, http_build_query(array('companies' => $list)));
+    }
+
+    /**
+     * @param string $platform
+     * @param int $company_id
+     * @param null|string $environment
+     * @return array
+     */
+    public function getGainsightCompanyStats($platform, $company_id, $environment = null) {
+        $url = "gainsight/companystats/$platform/$company_id";
+        if ($environment) {
+            $url .= "/$environment";
+        }
         return $this->worker->get($url);
     }
 
