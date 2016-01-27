@@ -13,7 +13,7 @@ $client = new WebServicesClient($client_id, $client_secret, $redirect_uri);
 // Access token expires in 10 years. Please save it and do not get a new token everytime.
 //$access_token = $client->authorize();
 //$client->setAccessToken($access_token);
-$environment = 'app'; // app | app3 | vpc1
+$environment = WebServicesClient::CONVERSATIONS_ENV_APP; // on of WebServicesClient::CONVERSATIONS_ENV_*
 $company_id = 6;
 $filepath = realpath('example.csv');
 $social_media_url = "https://twitter.com/Spredfast/status/543505824967323648";

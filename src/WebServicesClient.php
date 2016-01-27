@@ -602,4 +602,18 @@ class WebServicesClient {
         return $this->worker->get($url);
     }
 
+    /**
+     * @param string $environment
+     * @param int $company_id
+     * @param array $initiatives
+     * @param int $offset
+     * @param int $limit
+     * @param array $fields
+     * @return array
+     */
+    public function getCompanyInitiativeAccounts($environment, $company_id, array $initiatives, $offset = 0, $limit = 0, $fields = array()) {
+        $url = "company/initiativeaccounts/$environment/$company_id/" . implode(',', $initiatives) . '?' . $this->makeQueryParamsString($offset, $limit, $fields);
+        return $this->worker->get($url);
+    }
+
 }
