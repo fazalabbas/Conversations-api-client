@@ -26,7 +26,7 @@ class WebServices {
      *
      * @var string
      */
-    protected $_protocol = 'http';
+    protected $_protocol = 'https';
 
     /**
      *
